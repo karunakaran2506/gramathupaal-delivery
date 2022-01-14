@@ -47,14 +47,13 @@
     height:10rem;
 }
 
-.orderdetail-css .modal-wrapper {
-    height: 85%;
-    top: 10%;
-    bottom: 10%;
-    width:95%;
-    margin:0 auto;
-    display: block;
-    position: absolute; 
-    display: block;
-    border-radius: 1rem;
+.orderdetail {
+    --height: 85%;
+    --bottom: 10%;
+    --width:95%;
+    --margin:0 auto;
+    --display: block;
+    --position: absolute;
+    --border-radius: 1rem;
+    --top: 10%;
 }

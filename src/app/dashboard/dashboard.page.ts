@@ -56,11 +56,11 @@ export class DashboardPage implements OnInit {
       subscriptionpack: data?.subscriptionpack
     };
     const modal = await this.modalCtrl.create({
+      cssClass: 'orderdetail',
       component: OrderdetailsPage,
       componentProps: {
         payload
-      },
-      cssClass: 'orderdetail-css'
+      }
     })
     return modal.present();
   }
