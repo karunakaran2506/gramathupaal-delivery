@@ -1,0 +1,169 @@
+<ion-header class="ion-no-border" mode="ios">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button [matMenuTriggerFor]="menu">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>power_settings_new</mat-icon>
+          <span>Log-out</span>
+        </button>
+      </mat-menu>
+    </ion-buttons>
+    <ion-title>GramathuPaal - Delivery</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="6" style="text-align: left;">
+          <p><b>Delivery Person Name</b></p>
+          <p><b>Today Date</b></p>
+          <p><b>No of orders to be delivered</b></p>
+          <p><b>Estimated Litre</b></p>
+          <p><b>No of litres taken</b></p>
+        </ion-col>
+        <ion-col size="6" style="text-align: right;">
+          <p><b>{{this.userDetails ? this.userDetails?.name : '-'}}</b></p>
+          <p><b>{{this.selectedDate | date : 'short'}}</b></p>
+          <p><b>{{this.pendingOrders?.length}}</b></p>
+          <p><b>-</b></p>
+          <p><b>-</b></p>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  <ion-row>
+    <ion-col size="12">
+      <ion-segment value="{{activeSegment}}" (ionChange)="segmentChanged($event)">
+        <ion-segment-button value="pending">
+          <ion-label>Pending</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="delivered">
+          <ion-label>Delivered</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="notdelivered">
+          <ion-label>Not Delivered</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-col>
+    <ion-col *ngIf="this.activeSegment === 'pending'" size="12">
+      <div *ngIf="this.pendingOrders?.length; else noOrders">
+        <ion-card *ngFor="let data of pendingOrders">
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="6" style="text-align: left;">
+                <p><b>Customer Name</b></p>
+                <p><b>Order Product</b></p>
+                <p><b>Locality</b></p>
+              </ion-col>
+              <ion-col size="6" style="text-align: right;">
+                <p><b>{{data?.customer?.name}}</b></p>
+                <p><b>{{data?.subscriptionpack?.product?.name}}&nbsp;{{data?.subscriptionpack?.product?.quantity}}&nbsp;{{data?.subscriptionpack?.product?.unit
+                    | unit}}</b></p>
+                <p><b>{{data?.customeraddress?.area}}</b></p>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="data?.isAvailable; else notAvailable">
+              <ion-col size="6">
+                <ion-button (click)="createEntry(data?._id,true)" expand="block" size="small" color="primary"
+                  fill="outline">Delivered
+                </ion-button>
+              </ion-col>
+              <ion-col size="6">
+                <ion-button (click)="createEntry(data?._id,false)" expand="block" size="small" color="primary"
+                  fill="solid">Not Delivered
+                </ion-button>
+              </ion-col>
+            </ion-row>
+            <ng-template #notAvailable>
+              <ion-row>
+                <ion-col style="text-align: center;">
+                  <ion-label>Not available today</ion-label>
+                </ion-col>
+              </ion-row>
+            </ng-template>
+            <ion-row>
+              <ion-col size="12">
+                <ion-button (click)="openOrderDetails(data)" expand="block" size="small" color="primary" fill="solid">
+                  View
+                  Details</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-col>
+    <ion-col *ngIf="this.activeSegment === 'delivered'" size="12">
+      <div *ngIf="this.deliveredOrders?.length; else noOrders">
+        <ion-card *ngFor="let data of deliveredOrders">
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="6" style="text-align: left;">
+                <p><b>Customer Name</b></p>
+                <p><b>Order Product</b></p>
+                <p><b>Locality</b></p>
+              </ion-col>
+              <ion-col size="6" style="text-align: right;">
+                <p><b>{{data?.customer?.name}}</b></p>
+                <p><b>{{data?.subscriptionpack?.product?.name}}&nbsp;{{data?.subscriptionpack?.product?.quantity}}&nbsp;{{data?.subscriptionpack?.product?.unit
+                    | unit}}</b></p>
+                <p><b>{{data?.customeraddress?.area}}</b></p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <ion-button (click)="openOrderDetails(data)" expand="block" size="small" color="primary" fill="solid">
+                  View
+                  Details</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-col>
+    <ion-col *ngIf="this.activeSegment === 'notdelivered'" size="12">
+      <div *ngIf="this.notdeliveredOrders?.length; else noOrders">
+        <ion-card *ngFor="let data of notdeliveredOrders">
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="6" style="text-align: left;">
+                <p><b>Customer Name</b></p>
+                <p><b>Order Product</b></p>
+                <p><b>Locality</b></p>
+              </ion-col>
+              <ion-col size="6" style="text-align: right;">
+                <p><b>{{data?.customer?.name}}</b></p>
+                <p><b>{{data?.subscriptionpack?.product?.name}}&nbsp;{{data?.subscriptionpack?.product?.quantity}}&nbsp;{{data?.subscriptionpack?.product?.unit
+                    | unit}}</b></p>
+                <p><b>{{data?.customeraddress?.area}}</b></p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <ion-button (click)="openOrderDetails(data)" expand="block" size="small" color="primary" fill="solid">
+                  View
+                  Details</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-col>
+    <ng-template #noOrders>
+      <ion-row>
+        <ion-col style="text-align: center;padding: 5%;">
+          <ion-label>No active data</ion-label>
+        </ion-col>
+      </ion-row>
+    </ng-template>
+  </ion-row>
+</ion-content>
+
+<ion-footer></ion-footer>

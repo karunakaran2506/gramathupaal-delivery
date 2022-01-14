@@ -1,0 +1,79 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title style="font-weight:500;text-align: center;">Delivery Information</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle><b>Customer Details</b></ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="3" style="text-align: left;">
+          <p><b>Name</b></p>
+          <p><b>Mobile Number</b></p>
+        </ion-col>
+        <ion-col size="9" style="text-align: right;">
+          <p><b>{{this.customer?.name}}</b></p>
+          <p><b>{{this.customer?.phone}}</b></p>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle><b>Order to be delivered</b></ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="12" style="text-align: left;">
+          <p><b>{{this?.subscriptionpack?.product?.name}}&nbsp;{{this?.subscriptionpack?.product?.quantity}}&nbsp;{{this?.subscriptionpack?.product?.unit
+            | unit}}</b></p>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle><b>Address Details</b></ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="3" style="text-align: left;">
+          <p><b>Address</b></p>
+          <p><b>Area</b></p>
+          <p><b>Pincode</b></p>
+          <p><b>Landmark</b></p>
+        </ion-col>
+        <ion-col size="9" style="text-align: right;">
+          <p><b>{{this.customeraddress?.addressline1}},{{this.customeraddress?.addressline2}}</b></p>
+          <p><b>{{this.customeraddress?.area}}</b></p>
+          <p><b>{{this.customeraddress?.pincode}}</b></p>
+          <p><b>{{this.customeraddress?.landmark}}</b></p>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-row style="padding: 2%;">
+    <ion-col size="6" style="text-align: left;">
+      <ion-label>
+        Delivery Status
+      </ion-label>
+    </ion-col>
+    <ion-col size="6" style="text-align: right;">
+      <ion-label>
+        <b>{{this.isPending ? 'Pending' : (this.isDelivered ? 'Delivered' : 'Not delivered')}}</b>
+      </ion-label>
+    </ion-col>
+  </ion-row>
+</ion-footer>
