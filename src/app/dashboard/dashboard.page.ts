@@ -16,6 +16,9 @@ export class DashboardPage implements OnInit {
   pendingOrders: Array<any> = [];
   deliveredOrders: Array<any> = [];
   notdeliveredOrders: Array<any> = [];
+  totalA1milk : number;
+  totalA2milk : number;
+  totalBuffalomilk : number;
   selectedDate: Date;
 
   constructor(
@@ -39,6 +42,22 @@ export class DashboardPage implements OnInit {
         this.pendingOrders = data?.order?.filter((x: any) => x.isPending);
         this.deliveredOrders = data?.order?.filter((x: any) => x.isDelivered);
         this.notdeliveredOrders = data?.order?.filter((x: any) => (!x.isPending && !x.isDelivered));
+        data?.order.map((x:any) => {
+          let totalA1milk = 0;
+          let totalA2milk = 0;
+          let totalBuffalomilk = 0;
+          const product = x?.subscriptionpack?.product;
+          if(product?.milktype === 'a1milk') {
+            totalA1milk = totalA1milk + ((product?.unit === 'millilitre') ? (product?.quantity/1000) : product?.quantity);
+          } else if (product?.milktype === 'a2milk') {
+            totalA2milk = totalA2milk + ((product?.unit === 'millilitre') ? (product?.quantity/1000) : product?.quantity);
+          } else if (product?.milktype === 'buffalomilk') {
+            totalBuffalomilk = totalBuffalomilk + ((product?.unit === 'millilitre') ? (product?.quantity/1000) : product?.quantity);
+          }
+          this.totalA1milk = totalA1milk;
+          this.totalA2milk = totalA2milk;
+          this.totalBuffalomilk = totalBuffalomilk;
+        })
       })
   }
 

@@ -25,15 +25,19 @@
         <ion-col size="6" style="text-align: left;">
           <p><b>Delivery Person Name</b></p>
           <p><b>Today Date</b></p>
-          <p><b>No of orders to be delivered</b></p>
-          <p><b>Estimated Litre</b></p>
+          <p><b>Orders to be delivered</b></p>
+          <p><b>Estimated A1 milk</b></p>
+          <p><b>Estimated A2 milk</b></p>
+          <p><b>Estimated Buffalo milk</b></p>
           <p><b>No of litres taken</b></p>
         </ion-col>
         <ion-col size="6" style="text-align: right;">
           <p><b>{{this.userDetails ? this.userDetails?.name : '-'}}</b></p>
           <p><b>{{this.selectedDate | date : 'short'}}</b></p>
           <p><b>{{this.pendingOrders?.length}}</b></p>
-          <p><b>-</b></p>
+          <p><b>{{this.totalA1milk}}</b></p>
+          <p><b>{{this.totalA2milk}}</b></p>
+          <p><b>{{this.totalBuffalomilk}}</b></p>
           <p><b>-</b></p>
         </ion-col>
       </ion-row>
