@@ -42,4 +42,12 @@ export class ApiService {
       }
     })
   }
+
+  getTodayMilkSupply() {
+    return this.http.get(this.baseUrl + 'getMilkSupplybyDeliveryman', {
+      headers: {
+        token: localStorage.getItem('gpdeltoken')
+      }
+    })
+  }
 }

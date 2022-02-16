@@ -16,9 +16,12 @@ export class DashboardPage implements OnInit {
   pendingOrders: Array<any> = [];
   deliveredOrders: Array<any> = [];
   notdeliveredOrders: Array<any> = [];
-  totalA1milk : number;
-  totalA2milk : number;
-  totalBuffalomilk : number;
+  totalA1milk: number = 0;
+  totalA2milk: number = 0;
+  totalBuffalomilk: number = 0;
+  totalA1MilkTaken: number = 0;
+  totalA2MilkTaken: number = 0;
+  totalBuffaloMilkTaken: number = 0;
   selectedDate: Date;
 
   constructor(
@@ -42,23 +45,43 @@ export class DashboardPage implements OnInit {
         this.pendingOrders = data?.order?.filter((x: any) => x.isPending);
         this.deliveredOrders = data?.order?.filter((x: any) => x.isDelivered);
         this.notdeliveredOrders = data?.order?.filter((x: any) => (!x.isPending && !x.isDelivered));
-        data?.order.map((x:any) => {
+        data?.order.map((x: any) => {
           let totalA1milk = 0;
           let totalA2milk = 0;
           let totalBuffalomilk = 0;
           const product = x?.subscriptionpack?.product;
-          if(product?.milktype === 'a1milk') {
-            totalA1milk = totalA1milk + ((product?.unit === 'millilitre') ? (product?.quantity/1000) : product?.quantity);
+          if (product?.milktype === 'a1milk') {
+            totalA1milk = totalA1milk + ((product?.unit === 'millilitre') ? (product?.quantity / 1000) : product?.quantity);
           } else if (product?.milktype === 'a2milk') {
-            totalA2milk = totalA2milk + ((product?.unit === 'millilitre') ? (product?.quantity/1000) : product?.quantity);
+            totalA2milk = totalA2milk + ((product?.unit === 'millilitre') ? (product?.quantity / 1000) : product?.quantity);
           } else if (product?.milktype === 'buffalomilk') {
-            totalBuffalomilk = totalBuffalomilk + ((product?.unit === 'millilitre') ? (product?.quantity/1000) : product?.quantity);
+            totalBuffalomilk = totalBuffalomilk + ((product?.unit === 'millilitre') ? (product?.quantity / 1000) : product?.quantity);
           }
           this.totalA1milk = totalA1milk;
           this.totalA2milk = totalA2milk;
           this.totalBuffalomilk = totalBuffalomilk;
         })
       })
+
+      this.apiservice.getTodayMilkSupply()
+       .subscribe((data:any) => {
+         let totalA1MilkTaken = 0;
+         let totalA2MilkTaken = 0;
+         let totalBuffaloMilkTaken = 0;
+         data?.entry?.map((entry:any) => {
+           const product = entry?.product;
+          if (product?.milktype === 'a1milk') {
+            totalA1MilkTaken = totalA1MilkTaken + entry?.quantity;
+          } else if (product?.milktype === 'a2milk') {
+            totalA2MilkTaken = totalA2MilkTaken + entry?.quantity;
+          } else if (product?.milktype === 'buffalomilk') {
+            totalBuffaloMilkTaken = totalBuffaloMilkTaken + entry?.quantity;
+          }
+         })
+         this.totalA1MilkTaken = totalA1MilkTaken;
+         this.totalA2MilkTaken = totalA2MilkTaken;
+         this.totalBuffaloMilkTaken = totalBuffaloMilkTaken;
+       })
   }
 
   segmentChanged(event: any) {
@@ -84,26 +107,43 @@ export class DashboardPage implements OnInit {
     return modal.present();
   }
 
-  createEntry(subscriptionpackorder: string, isdelivered: boolean) {
-    let payload = {
-      subscriptionpackorder,
-      isdelivered
-    }
-    this.apiservice.createDeliveryEntry(payload)
-      .subscribe((data: any) => {
-        if (data?.success) {
-          this.getOrders();
-
-          this.presenttoast(data?.message);
-        } else {
-          this.presenttoast(data?.message);
+  async createEntry(subscriptionpackorder: string, isdelivered: boolean) {
+    const alert = await this.alertController.create({
+      cssClass: 'logout',
+      message: 'Are your sure to make this action ?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Yes',
+          handler: () => {
+            let payload = {
+              subscriptionpackorder,
+              isdelivered
+            }
+            this.apiservice.createDeliveryEntry(payload)
+              .subscribe((data: any) => {
+                if (data?.success) {
+                  this.getOrders();
+                  this.presenttoast(data?.message);
+                } else {
+                  this.presenttoast(data?.message);
+                }
+              })
+          }
         }
-      })
+      ]
+    });
+    await alert.present();
   }
 
   async logout() {
     const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
+      cssClass: 'logout',
       message: 'Are your sure to logout ?',
       buttons: [
         {

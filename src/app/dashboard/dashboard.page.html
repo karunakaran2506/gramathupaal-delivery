@@ -29,7 +29,9 @@
           <p><b>Estimated A1 milk</b></p>
           <p><b>Estimated A2 milk</b></p>
           <p><b>Estimated Buffalo milk</b></p>
-          <p><b>No of litres taken</b></p>
+          <p><b>A1 Milk taken</b></p>
+          <p><b>A2 Milk taken</b></p>
+          <p><b>Buffalo Milk taken</b></p>
         </ion-col>
         <ion-col size="6" style="text-align: right;">
           <p><b>{{this.userDetails ? this.userDetails?.name : '-'}}</b></p>
@@ -38,7 +40,9 @@
           <p><b>{{this.totalA1milk}}</b></p>
           <p><b>{{this.totalA2milk}}</b></p>
           <p><b>{{this.totalBuffalomilk}}</b></p>
-          <p><b>-</b></p>
+          <p><b>{{this.totalA1MilkTaken}}</b></p>
+          <p><b>{{this.totalA2MilkTaken}}</b></p>
+          <p><b>{{this.totalBuffaloMilkTaken}}</b></p>
         </ion-col>
       </ion-row>
     </ion-card-content>
