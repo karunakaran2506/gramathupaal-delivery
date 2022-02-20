@@ -45,11 +45,11 @@ export class DashboardPage implements OnInit {
         this.pendingOrders = data?.order?.filter((x: any) => x.isPending);
         this.deliveredOrders = data?.order?.filter((x: any) => x.isDelivered);
         this.notdeliveredOrders = data?.order?.filter((x: any) => (!x.isPending && !x.isDelivered));
-        data?.order.map((x: any) => {
-          let totalA1milk = 0;
-          let totalA2milk = 0;
-          let totalBuffalomilk = 0;
-          const product = x?.subscriptionpack?.product;
+        let totalA1milk = 0;
+        let totalA2milk = 0;
+        let totalBuffalomilk = 0;
+        data?.order.map((order: any) => {
+          const product = order?.subscriptionpack?.product;
           if (product?.milktype === 'a1milk') {
             totalA1milk = totalA1milk + ((product?.unit === 'millilitre') ? (product?.quantity / 1000) : product?.quantity);
           } else if (product?.milktype === 'a2milk') {
@@ -63,13 +63,13 @@ export class DashboardPage implements OnInit {
         })
       })
 
-      this.apiservice.getTodayMilkSupply()
-       .subscribe((data:any) => {
-         let totalA1MilkTaken = 0;
-         let totalA2MilkTaken = 0;
-         let totalBuffaloMilkTaken = 0;
-         data?.entry?.map((entry:any) => {
-           const product = entry?.product;
+    this.apiservice.getTodayMilkSupply()
+      .subscribe((data: any) => {
+        let totalA1MilkTaken = 0;
+        let totalA2MilkTaken = 0;
+        let totalBuffaloMilkTaken = 0;
+        data?.entry?.map((entry: any) => {
+          const product = entry?.product;
           if (product?.milktype === 'a1milk') {
             totalA1MilkTaken = totalA1MilkTaken + entry?.quantity;
           } else if (product?.milktype === 'a2milk') {
@@ -77,11 +77,11 @@ export class DashboardPage implements OnInit {
           } else if (product?.milktype === 'buffalomilk') {
             totalBuffaloMilkTaken = totalBuffaloMilkTaken + entry?.quantity;
           }
-         })
-         this.totalA1MilkTaken = totalA1MilkTaken;
-         this.totalA2MilkTaken = totalA2MilkTaken;
-         this.totalBuffaloMilkTaken = totalBuffaloMilkTaken;
-       })
+        })
+        this.totalA1MilkTaken = totalA1MilkTaken;
+        this.totalA2MilkTaken = totalA2MilkTaken;
+        this.totalBuffaloMilkTaken = totalBuffaloMilkTaken;
+      })
   }
 
   segmentChanged(event: any) {
