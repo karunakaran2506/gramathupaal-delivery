@@ -1,0 +1,49 @@
+<ion-header translucent>
+  <ion-toolbar color="primary">
+    <ion-title style="font-weight:500;text-align: center;">Edit Location</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="locationForm" (ngSubmit)="onSubmit(locationForm.value)">
+    <mat-form-field appearance="outline">
+      <mat-label>Latitude</mat-label>
+      <input matInput placeholder="Enter Latitude" type="text" formControlName="latitude">
+      <mat-icon matSuffix>location_on</mat-icon>
+      <mat-hint>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.latitude">
+            <div class="error-message"
+              *ngIf="locationForm.get('latitude').hasError(validation.type) && (locationForm.get('latitude').dirty || locationForm.get('latitude').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Longitude</mat-label>
+      <input matInput placeholder="Enter Longitude" type="text" formControlName="longitude">
+      <mat-icon matSuffix>location_on</mat-icon>
+      <mat-hint>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.longitude">
+            <div class="error-message"
+              *ngIf="locationForm.get('longitude').hasError(validation.type) && (locationForm.get('longitude').dirty || locationForm.get('longitude').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </mat-hint>
+    </mat-form-field>
+    <br>
+    <ion-button type="submit" expand="block">Submit</ion-button>
+  </form>
+</ion-content>

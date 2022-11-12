@@ -27,6 +27,18 @@ const routes: Routes = [
     path: 'orderdetails',
     loadChildren: () => import('./orderdetails/orderdetails.module').then( m => m.OrderdetailsPageModule)
   },
+  {
+    path: 'delivery-reason',
+    loadChildren: () => import('./delivery-reason/delivery-reason.module').then( m => m.DeliveryReasonPageModule)
+  },
+  {
+    path: 'edit-location',
+    loadChildren: () => import('./edit-location/edit-location.module').then( m => m.EditLocationPageModule)
+  },
+  {
+    path: 'active-subscriptions',
+    loadChildren: () => import('./active-subscriptions/active-subscriptions.module').then( m => m.ActiveSubscriptionsPageModule)
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,37 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title style="font-weight:500;text-align: center;">Delivery Information</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <form [formGroup]="deliveryReasonForm" (ngSubmit)="onSubmit(deliveryReasonForm.value)">
+        <mat-form-field appearance="outline">
+          <mat-label>Reason</mat-label>
+          <input matInput placeholder="Enter reason" type="text" formControlName="reason">
+          <mat-icon matSuffix>description</mat-icon>
+          <mat-hint>
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validation_messages.reason">
+                <div class="error-message"
+                  *ngIf="deliveryReasonForm.get('reason').hasError(validation.type) && (deliveryReasonForm.get('reason').dirty || deliveryReasonForm.get('reason').touched)">
+                  <ion-icon name="information-circle-outline"></ion-icon>
+                  {{ validation.message }}
+                </div>
+              </ng-container>
+            </div>
+          </mat-hint>
+        </mat-form-field>
+        <br>
+        <ion-button type="submit" expand="block">Submit</ion-button>
+      </form>
+    </ion-col>
+  </ion-row>
+</ion-content>

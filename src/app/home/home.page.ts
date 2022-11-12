@@ -50,6 +50,7 @@ export class HomePage implements OnInit {
             localStorage.setItem('gpdeltoken', data?.token);
             localStorage.setItem('userDetails', JSON.stringify(data?.user));
             localStorage.setItem('store', data?.user?.store);
+            localStorage.setItem('userid', data?.user?.id);
             let payLoad = {
               sessiontype: 'in',
               store: data?.user?.store

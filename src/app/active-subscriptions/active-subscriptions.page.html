@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card-header>
+    <ion-title>Active Subscriptions</ion-title>
+  </ion-card-header>
+  <ion-card *ngFor="let data of subscriptions">
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="7" style="text-align: left;">
+          <p><b>Subscriptions</b></p>
+          <p><b>Customer</b></p>
+          <p><b>Customer Address</b></p>
+          <p><b>Days Remaining</b></p>
+        </ion-col>
+        <ion-col size="5" style="text-align: right;">
+          <p><b>{{data.subscriptionpack?.name}}</b></p>
+          <p><b>{{data.customer.name}} | {{data.customer.name}}</b></p>
+          <p><b>{{data?.customeraddress?.addressline1}},{{data?.customeraddress?.addressline2}},{{data?.customeraddress?.area}}-{{data?.customeraddress?.pincode}}</b></p>
+          <p><b>{{data?.validity}}</b></p>
+        </ion-col>
+        <ion-col size="6"></ion-col>
+        <ion-col size="6">
+          <ion-button (click)="editLocation(data?.customeraddress?._id)" type="button" expand="block">Edit Location</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
